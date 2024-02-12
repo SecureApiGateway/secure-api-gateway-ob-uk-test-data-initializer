@@ -1,7 +1,7 @@
 name: create-release
 run-name: Create release '${{ inputs.release_version_number }}'
 # What it does:
-# - Call release-prepare-no-maven
+# - Call release-prepare
 # - Call release-publish-docker workflow
 # - Call release-publish-helm workflow
 # - Call release-publish
@@ -20,11 +20,12 @@ on:
 
 jobs:
 
-  release_prepare_no_maven: # prepare for a release in scm, creates the tag and release branch with the proper release versions
+  release_prepare: # prepare for a release in scm, creates the tag and release branch with the proper release versions
     name: Call release prepare
-    uses: SecureApiGateway/secure-api-gateway-parent/.github/workflows/release-prepare-no-maven.yml@master
+    uses: SecureApiGateway/secure-api-gateway-parent/.github/workflows/release-prepare.yml@master
     with:
       release_version_number: ${{ inputs.release_version_number }}
+      require_maven: false
     secrets:
       GIT_COMMIT_USERNAME_BOT: ${{ secrets.GIT_COMMIT_USERNAME_BOT }}
       GIT_COMMIT_AUTHOR_EMAIL_BOT: ${{ secrets.GIT_COMMIT_AUTHOR_EMAIL_BOT }}
@@ -32,11 +33,11 @@ jobs:
 
   release_docker:
     name: Call publish docker
-    needs: [ release_prepare_no_maven ]
+    needs: [ release_prepare ]
     uses: SecureApiGateway/secure-api-gateway-parent/.github/workflows/release-publish-docker.yml@master
     with:
       release_version_number: ${{ inputs.release_version_number }}
-      release_tag_ref: ${{ needs.release_prepare_no_maven.outputs.release_tag_ref }}
+      release_tag_ref: ${{ needs.release_prepare.outputs.release_tag_ref }}
       SERVICE_NAME: securebanking-test-data-initializer
       GAR_RELEASE_REPO: ${{ vars.GAR_RELEASE_REPO }}
       with_maven: false # skip set java and maven configuration
@@ -45,7 +46,7 @@ jobs:
 
   release_helm:
     name: Call publish helm
-    needs: [ release_prepare_no_maven ]
+    needs: [ release_prepare ]
     uses: SecureApiGateway/secure-api-gateway-parent/.github/workflows/release-publish-helm.yml@master
     with:
       release_version_number: ${{ inputs.release_version_number }}
@@ -57,11 +58,11 @@ jobs:
 
   release_draft:
     name: Call publish
-    needs: [release_prepare_no_maven, release_docker, release_helm]
+    needs: [release_prepare, release_docker, release_helm]
     uses: SecureApiGateway/secure-api-gateway-parent/.github/workflows/release-publish.yml@master
     with:
       release_version_number: ${{ inputs.release_version_number }}
-      release_tag_ref: ${{ needs.release_prepare_no_maven.outputs.release_tag_ref }}
+      release_tag_ref: ${{ needs.release_prepare.outputs.release_tag_ref }}
       release_notes: ${{ inputs.notes }}
     secrets:
       release_github_token: ${{ secrets.RELEASE_PAT }}
