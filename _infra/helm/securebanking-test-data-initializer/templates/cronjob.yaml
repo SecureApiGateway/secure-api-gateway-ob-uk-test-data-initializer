@@ -24,31 +24,59 @@ spec:
               env:
                 - name: ENVIRONMENT.STRICT
                   value: {{ .Values.cronjob.environment.strict | quote }}
+                {{- if eq .Values.cronjob.environment.sapigType "ob" }}
                 - name: ENVIRONMENT.SAPIGTYPE
                   valueFrom:
                     configMapKeyRef:
-                      name: core-deployment-config
+                      name: ob-deployment-config
                       key: SAPIG_TYPE
                 - name: ENVIRONMENT.CLOUDTYPE
                   valueFrom:
                     configMapKeyRef:
-                      name: core-deployment-config
+                      name: ob-deployment-config
                       key: CLOUD_TYPE
                 - name: IDENTITY_PLATFORM_FQDN # variable to run the command shell, the shell doesn't support variables with dot.
                   valueFrom:
                     configMapKeyRef:
-                      name: core-deployment-config
+                      name: ob-deployment-config
                       key: IDENTITY_PLATFORM_FQDN
                 - name: HOSTS.IDENTITY_PLATFORM_FQDN
                   valueFrom:
                     configMapKeyRef:
-                      name: core-deployment-config
+                      name: ob-deployment-config
                       key: IDENTITY_PLATFORM_FQDN
                 - name: IDENTITY.AM_REALM
                   valueFrom:
                     configMapKeyRef:
-                      name: core-deployment-config
+                      name: ob-deployment-config
                       key: AM_REALM
+                {{- else }}
+                - name: ENVIRONMENT.SAPIGTYPE
+                  valueFrom:
+                    configMapKeyRef:
+                      name: as-sapig-deployment-config
+                      key: SAPIG_TYPE
+                - name: ENVIRONMENT.CLOUDTYPE
+                  valueFrom:
+                    configMapKeyRef:
+                      name: as-sapig-deployment-config
+                      key: CLOUD_TYPE
+                - name: IDENTITY_PLATFORM_FQDN # variable to run the command shell, the shell doesn't support variables with dot.
+                  valueFrom:
+                    configMapKeyRef:
+                      name: as-sapig-deployment-config
+                      key: IDENTITY_PLATFORM_FQDN
+                - name: HOSTS.IDENTITY_PLATFORM_FQDN
+                  valueFrom:
+                    configMapKeyRef:
+                      name: as-sapig-deployment-config
+                      key: IDENTITY_PLATFORM_FQDN
+                - name: IDENTITY.AM_REALM
+                  valueFrom:
+                    configMapKeyRef:
+                      name: as-sapig-deployment-config
+                      key: AM_REALM
+                {{ end }}
                 {{- if eq .Values.cronjob.environment.cloudType "FIDC" }}
                 - name: USERS.FIDC_PLATFORM_SERVICE_ACCOUNT_KEY
                   valueFrom:
