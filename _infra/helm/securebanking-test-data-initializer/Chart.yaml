@@ -2,5 +2,5 @@ apiVersion: v2
 name: test-user-account-creator
 description: Test user account creator initializer helm chart
 type: application
-version: 4.0.0
-appVersion: 4.0.0
+version: 5.0.0
+appVersion: 5.0.0
