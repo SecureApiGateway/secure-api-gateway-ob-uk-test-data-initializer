@@ -51,6 +51,46 @@ func CreatePSU() string {
 	return userRes.UserId
 }
 
+// CreateStudio - create the studio user if necessary
+func CreateStudio() string {
+	exist, userId := identityExists(common.Config.Users.StudioUsername)
+	if exist {
+		zap.S().Infof("Account found, skipping creation of Studio User", "userID", userId)
+		return userId
+	}
+
+	zap.S().Infof("Creating Studio User")
+
+	user := &STUDIO{
+		UserId:    common.Config.Users.StudioUserId,
+		UserName:  common.Config.Users.StudioUsername,
+		SN:        "Studio User",
+		GivenName: "StudioUser",
+		Mail:      "studio@acme.com",
+		Password:  common.Config.Users.StudioPassword,
+	}
+	// TODO: check the managed user object, it's different for cloud
+	var managedUserObject = "user"
+	if common.Config.Environment.CloudType == types.Platform.Instance().FIDC {
+		managedUserObject = common.Config.Identity.AmRealm + "_user"
+	}
+	path := "/openidm/managed/" + managedUserObject + "/?_action=create"
+	body, s := httprest.Client.Post(path, user, map[string]string{
+		"Accept":       "*/*",
+		"Content-Type": "application/json",
+		"Connection":   "keep-alive",
+	})
+	userRes := &UserResponse{}
+	err := json.Unmarshal(body, userRes)
+	if err != nil {
+		panic(err)
+	}
+	zap.S().Debugw("Studio user created", "Response", userRes, "UserId", userRes.UserId)
+
+	zap.S().Infow("Studio user created", "statusCode", s)
+	return userRes.UserId
+}
+
 // PSUIdentityExists will check for psu identities in the alpha realm
 func identityExists(identity string) (bool, string) {
 	filter := "?_queryFilter=uid+eq+%22" + url.QueryEscape(identity) + "%22&_fields=username"
