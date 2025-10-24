@@ -64,8 +64,8 @@ func CreateStudio() string {
 	user := &STUDIO{
 		UserId:    common.Config.Users.StudioUserId,
 		UserName:  common.Config.Users.StudioUsername,
-		SN:        "Studio User",
-		GivenName: "StudioUser",
+		SN:        "User",
+		GivenName: "Studio",
 		Mail:      "studio@acme.com",
 		Password:  common.Config.Users.StudioPassword,
 	}
