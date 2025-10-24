@@ -32,3 +32,6 @@ USERS: # Root key users to be created or to authenticate and authorize flows
   PSU_USER_ID: 4737f9f9-fa0a-4159-bc61-7da31542e624 # Psu User Id to (It will be created): needs to be a UUID
   PSU_USERNAME: psu4test # Psu Username to (It will be created)
   PSU_PASSWORD: 0penBanking! # Psu user password (It will be created)
+  STUDIO_USER_ID: 4737f9f9-fa0a-4159-bc61-7da31542e625 # Studio User Id to (It will be created): needs to be a UUID
+  STUDIO_USERNAME: studioUser # Studio Username to (It will be created)
+  STUDIO_PASSWORD: 0penBanking! # Studio user password (It will be created)

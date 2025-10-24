@@ -70,6 +70,9 @@ func main() {
 	fmt.Println("Checking if PSU User needs to be created..")
 	userId := rs.CreatePSU()
 
+	fmt.Println("Checking if Studio User needs to be created..")
+	rs.CreateStudio()
+	
 	if common.Config.Environment.SapigType == "ob" {
 		fmt.Println("Attempt to populate RS Data..")
 		rs.PopulateRSData(userId)

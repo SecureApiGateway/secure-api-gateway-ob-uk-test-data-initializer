@@ -40,6 +40,9 @@ type users struct {
 	PsuUserId                     string `mapstructure:"PSU_USER_ID"`
 	PsuUsername                   string `mapstructure:"PSU_USERNAME"`
 	PsuPassword                   string `mapstructure:"PSU_PASSWORD"`
+	StudioUserId                  string `mapstructure:"STUDIO_USER_ID"`
+	StudioUsername                string `mapstructure:"STUDIO_USERNAME"`
+	StudioPassword                string `mapstructure:"STUDIO_PASSWORD"`
 }
 
 type paths struct {

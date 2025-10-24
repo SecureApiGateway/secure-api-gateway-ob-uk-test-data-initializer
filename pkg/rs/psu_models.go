@@ -9,6 +9,15 @@ type PSU struct {
 	Password  string `json:"password"`
 }
 
+type STUDIO struct {
+	UserId    string `json:"_id"`
+	UserName  string `json:"userName"`
+	SN        string `json:"sn"`
+	GivenName string `json:"givenName"`
+	Mail      string `json:"mail"`
+	Password  string `json:"password"`
+}
+
 type UserResponse struct {
 	UserId        string `json:"_id"`
 	Rev           string `json:"_rev"`
