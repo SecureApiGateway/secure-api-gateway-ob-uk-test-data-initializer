@@ -1,4 +1,4 @@
-FROM alpine:3.21.3
+FROM alpine:3.23.2
 
 RUN apk --no-cache add curl libc6-compat gcompat
 RUN addgroup -S sob-group && adduser -S sob-user -G sob-group
