@@ -4,11 +4,9 @@ on:
   pull_request:
     branches:
       - master
-      - ob-v*
     paths-ignore:
       - '**/README.md'
       - '_infra/helm/**'
-
 jobs:
   run_pr-template:
     name: PR - Build and Deploy
