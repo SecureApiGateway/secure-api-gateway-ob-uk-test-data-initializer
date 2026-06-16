@@ -19,29 +19,23 @@ spec:
             - name: ENVIRONMENT.STRICT
               value: {{ .Values.job.environment.strict | quote }}
             - name: ENVIRONMENT.SAPIGTYPE
-              valueFrom:
-                configMapKeyRef:
-                  name: as-sapig-deployment-config
-                  key: SAPIG_TYPE
+              value: {{ .Values.job.environment.sapigType | quote }}
             - name: ENVIRONMENT.CLOUDTYPE
-              valueFrom:
-                configMapKeyRef:
-                  name: as-sapig-deployment-config
-                  key: CLOUD_TYPE
+              value: {{ .Values.job.environment.cloudType | quote }}
             - name: IDENTITY_PLATFORM_FQDN # variable to run the command shell, the shell doesn't support variables with dot.
               valueFrom:
                 configMapKeyRef:
-                  name: as-sapig-deployment-config
+                  name: {{ .Values.job.environment.asDeploymentConfigMap }}
                   key: IDENTITY_PLATFORM_FQDN
             - name: HOSTS.IDENTITY_PLATFORM_FQDN
               valueFrom:
                 configMapKeyRef:
-                  name: as-sapig-deployment-config
+                  name: {{ .Values.job.environment.asDeploymentConfigMap }}
                   key: IDENTITY_PLATFORM_FQDN
             - name: IDENTITY.AM_REALM
               valueFrom:
                 configMapKeyRef:
-                  name: as-sapig-deployment-config
+                  name: {{ .Values.job.environment.asDeploymentConfigMap }}
                   key: AM_REALM
             {{- if eq .Values.job.environment.cloudType "FIDC" }}
             - name: USERS.FIDC_PLATFORM_SERVICE_ACCOUNT_KEY
