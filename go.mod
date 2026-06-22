@@ -3,7 +3,7 @@ module securebanking-test-data-initializer
 go 1.24.0
 
 require (
-	github.com/go-jose/go-jose/v3 v3.0.4
+	github.com/go-jose/go-jose/v3 v3.0.5
 	github.com/go-resty/resty/v2 v2.17.1
 	github.com/google/uuid v1.6.0
 	github.com/pact-foundation/pact-go v1.10.0
